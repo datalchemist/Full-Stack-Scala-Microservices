@@ -1,14 +1,14 @@
-# Play Framework with Scala.js, Binding.scala
+# Play Framework with Scala.js, Binding.scala & Endpoints
 
 [![Join the chat at https://gitter.im/Full-Stack-Scala-Starter/Lobby](https://badges.gitter.im/Full-Stack-Scala-Starter/Lobby.svg)](https://gitter.im/Full-Stack-Scala-Starter/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-This is a simple example application showing how you can integrate a Play project with a Scala.js, Binding.scala project. 
+This is a simple example application showing how you can integrate a Play project with a Scala.js, Binding.scala project and Endpoints
 
-Frontend communicates with backend via JSON. Project aims to be a simple modern starting point.
+Frontend communicates with backend via JSON through typesafe endpoints. Project aims to be a simple modern starting point for full-stack typesafe webapp
 
 The application contains three directories:
-* `server` Play application (server side)
-* `client` Scala.js, Binding.scala application (client side)
+* `jvm` Play application (server side)
+* `js` Scala.js, Binding.scala application (client side)
 * `shared` Scala code that you want to share between the server and the client
 
 ## Run the application
