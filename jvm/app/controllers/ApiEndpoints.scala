@@ -17,13 +17,12 @@ trait PlayJsonEntities extends Endpoints with JsonEntities {
 
 }
 class ApiEndpointServer(counter: services.Counter)(implicit ec:scala.concurrent.ExecutionContext) 
-extends shared.TestEndpoints with Endpoints with PlayJsonEntities {
+extends shared.PublicEndpoints with Endpoints with PlayJsonEntities {
 
   val routes: PlayRouter.Routes = routesFromEndpoints(
     count.implementedBy(_ => counter.nextCount())
   )
 
-  implicit val dateFmt : Format[java.util.Date] = implicitly[Format[java.util.Date]]
 }
 object ApiEndpoints {
   

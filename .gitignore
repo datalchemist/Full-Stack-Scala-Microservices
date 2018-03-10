@@ -28,5 +28,7 @@ shared/.jvm
 .scala_dependencies
 .buildpath
 .cache
+.cache-main
+.cache-tests
 .target
 bin/

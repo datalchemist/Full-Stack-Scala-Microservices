@@ -2,7 +2,17 @@ lazy val scalaV = "2.12.3"
 val playJsonVersion = "2.6.8"
 
 val macwire = "com.softwaremill.macwire" %% "macros" % "2.3.0" % "provided"
+
 val playJsonJs = "com.typesafe.play" %%%! "play-json" % playJsonVersion
+
+val scalaJsDom = "org.scala-js" %%%! "scalajs-dom" % "0.9.4"
+val scalaXmlJs="org.scala-lang.modules" %% "scala-xml" % "1.0.6"
+
+val scalaJsScripts="com.vmunier" %% "scalajs-scripts" % "1.1.1"
+
+val bindingScalaJs = "com.thoughtworks.binding" %%%! "dom" % "11.0.1"
+val bindingScalaFutureJs = "com.thoughtworks.binding" %%%! "futurebinding" % "11.0.1"
+
 val endpointsJvm = "org.julienrf" %% "endpoints-algebra" % "0.4.0"
 val endpointsJs = "org.julienrf" %%%! "endpoints-algebra" % "0.4.0"
 val endpointsPlayServer = "org.julienrf" %% "endpoints-play-server" % "0.4.0"
@@ -22,7 +32,7 @@ lazy val server = webApp.jvm
   // triggers scalaJSPipeline when using compile or continuous compilation
   compile in Compile <<= (compile in Compile) dependsOn scalaJSPipeline,
   libraryDependencies ++= Seq(
-    "com.vmunier" %% "scalajs-scripts" % "1.1.1",
+    scalaJsScripts,
       macwire,
     endpointsJvm,
     endpointsPlayServer,
@@ -46,11 +56,10 @@ lazy val client = webApp.js
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
     libraryDependencies ++= Seq(
       playJsonJs,
-      "org.scala-js" %%% "scalajs-dom" % "0.9.1",
-      "org.scala-lang.modules" %% "scala-xml" % "1.0.6",
-      "com.thoughtworks.binding" %%% "dom" % "11.0.0-M4",
-      "com.thoughtworks.binding" %%% "futurebinding" % "11.0.0-M4",
-      "fr.hmil" %%% "roshttp" % "2.0.2",
+      scalaJsDom,
+      scalaXmlJs,
+      bindingScalaJs,
+      bindingScalaFutureJs,
       endpointsJs,
       endpointsXhrClientJs
     )
