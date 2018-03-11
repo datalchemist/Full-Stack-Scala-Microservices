@@ -26,6 +26,9 @@ object ScalaJSExample {
   def countRequest(data: Var[String]) = {
     PublicEndpoints.count(()).foreach(v => data.value = s"$v COUNT")
   }
+  def helloRequest(data: Var[String]) = {
+    PublicEndpoints.hello(data.value).foreach(v => data.value = s"$v")
+  }
 
   @dom
   def render = {
@@ -38,7 +41,10 @@ object ScalaJSExample {
     		</div>
     		<div class="col-6">
       		<button onclick={event: Event => countRequest(data) }>
-        		Boop
+        		Call Play service
+      		</button>
+      		<button onclick={event: Event => helloRequest(data) }>
+        		Call lagom service
       		</button>
     		</div>
     		<div class="col">

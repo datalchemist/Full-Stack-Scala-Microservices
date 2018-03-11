@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
+GET     /web                           controllers.Application.index
 
 # Count Controller
 GET     /count                      controllers.CountController.count
