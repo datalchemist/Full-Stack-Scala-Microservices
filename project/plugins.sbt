@@ -8,6 +8,8 @@ resolvers += Resolver.url("heroku-sbt-plugin-releases",
   url("https://dl.bintray.com/heroku/sbt-plugins/"))(Resolver.ivyStylePatterns)
 
 // Sbt plugins
+addSbtPlugin("com.lightbend.lagom" % "lagom-sbt-plugin" % "1.4.1")
+
 addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.11")
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.5")

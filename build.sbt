@@ -2,6 +2,7 @@ lazy val scalaV = "2.12.3"
 val playJsonVersion = "2.6.8"
 
 val macwire = "com.softwaremill.macwire" %% "macros" % "2.3.0" % "provided"
+val scalaTest = "org.scalatest" %% "scalatest" % "3.0.4" % Test
 
 val playJsonJs = "com.typesafe.play" %%%! "play-json" % playJsonVersion
 
@@ -20,8 +21,56 @@ val endpointsXhrClientJs = "org.julienrf" %%%! "endpoints-xhr-client" % "0.4.0"
 
 lazy val crossType = CrossType.Full
 
+lazy val `simpleservice-app` = (project in file("."))
+  .aggregate(`simpleservice-api`, `simpleservice-impl`, client,server)
+
+lazy val `simpleservice-api-root` = (crossProject in file("simpleservice-api"))
+  .settings(
+    name := "simpleservice-api-root",
+    EclipseKeys.eclipseOutput := Some("eclipse_target"),
+    unmanagedSourceDirectories in Compile :=
+      Seq((scalaSource in Compile).value) ++
+        crossType.sharedSrcDir(baseDirectory.value, "main"),
+    unmanagedSourceDirectories in Test :=
+      Seq((scalaSource in Test).value) ++
+        crossType.sharedSrcDir(baseDirectory.value, "test")
+  )
+lazy val `simpleservice-api` = `simpleservice-api-root`.jvm
+  .settings(
+    scalaVersion := scalaV,
+    name := "simpleservice-api",
+    libraryDependencies ++= Seq(
+      lagomScaladslApi
+    )
+  )
+lazy val `simpleservice-api-js` = `simpleservice-api-root`.js
+  .settings(
+    scalaVersion := scalaV,
+    name := "simpleservice-api-js",
+    libraryDependencies ++= Seq(
+      playJsonJs
+    )
+  )
+
+
+lazy val `simpleservice-impl` = (project in file("simpleservice-impl"))
+  .enablePlugins(LagomScala)
+  .settings(
+    scalaVersion := scalaV,
+    name := "simpleservice-impl",
+    libraryDependencies ++= Seq(
+      lagomScaladslPersistenceCassandra,
+      lagomScaladslKafkaBroker,
+      lagomScaladslTestKit,
+      macwire,
+      scalaTest
+    )
+  )
+  .settings(lagomForkedTestSettings: _*)
+  .dependsOn(`simpleservice-api`)
+
 lazy val server = webApp.jvm
-  .enablePlugins(PlayScala)
+  .enablePlugins(PlayScala && LagomPlay)
   .settings(
     name := "web-server",
   scalaVersion := scalaV,
@@ -33,7 +82,7 @@ lazy val server = webApp.jvm
   compile in Compile <<= (compile in Compile) dependsOn scalaJSPipeline,
   libraryDependencies ++= Seq(
     scalaJsScripts,
-      macwire,
+    macwire,
     endpointsJvm,
     endpointsPlayServer,
     filters,
@@ -42,6 +91,7 @@ lazy val server = webApp.jvm
   // Compile the project before generating Eclipse files, so that generated .scala or .class files for views and routes are present
   EclipseKeys.preTasks := Seq(compile in Compile)
 )
+.dependsOn(`simpleservice-api`)
 
 lazy val client = webApp.js
   .enablePlugins(ScalaJSPlugin, ScalaJSWeb)
@@ -64,13 +114,14 @@ lazy val client = webApp.js
       endpointsXhrClientJs
     )
   )
+  .dependsOn(`simpleservice-api-js`)
 
 //lazy val shared = (crossProject.crossType(CrossType.Pure) in file("shared")).
 //  settings(scalaVersion := scalaV).
 //  jsConfigure(_ enablePlugins ScalaJSWeb)
 
 
-lazy val webApp = (crossProject in file("."))
+lazy val webApp = (crossProject in file("webApp"))
   .settings(
     EclipseKeys.eclipseOutput := Some("eclipse_target"),
     unmanagedSourceDirectories in Compile :=
