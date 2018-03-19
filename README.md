@@ -1,7 +1,5 @@
 # Lagom Framework with web UI using Scala.js, Binding.scala & Endpoints
 
-[![Join the chat at https://gitter.im/Full-Stack-Scala-Starter/Lobby](https://badges.gitter.im/Full-Stack-Scala-Starter/Lobby.svg)](https://gitter.im/Full-Stack-Scala-Starter/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 This is a simple example application showing how you can integrate a Lagom project with Play UI using Scala.js, Binding.scala project and Endpoints
 
 Scala.js frontend communicates with Play backend via JSON through typesafe endpoints. Play backend also acts as a gateway to Lagom service calls (wired through Enpoints). Project aims to be a simple modern starting point for full-stack micro-services typesafe webapp
